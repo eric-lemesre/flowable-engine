@@ -1,15 +1,22 @@
-#!/bin/sh
-echo "Building all modeler ui submodules"
+#!/usr/bin/env bash
+# retain current dir
+CURRENT_DIR=$(pwd)
+# find flowable home
+FLOWABLE_HOME=$(readlink -f `pwd`/$(dirname $0)/../../)
+
+cd ${FLOWABLE_HOME}
+echo "Building all submodules in ${FLOWABLE_HOME}"
 mvn -T 1C clean install -DskipTests
 STATUS=$?
 if [ $STATUS -eq 0 ]
 then
-	cd flowable-ui-modeler-app
+	cd ${FLOWABLE_HOME}/modules/flowable-ui-modeler-app
 
 	# Run war
 	export MAVEN_OPTS="$MAVEN_OPTS -noverify -Xms512m -Xmx1024m -Xdebug -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,address=8001,server=y,suspend=n"
-	mvn clean install -Pmysql -DskipTests spring-boot:run
+	mvn clean install -Ppostgresql -DskipTests spring-boot:run
 else
     echo "Error while building root pom. Halting."
 fi
 	
+cd ${CURRENT_DIR}

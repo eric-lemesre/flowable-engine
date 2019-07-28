@@ -1,2 +1,3 @@
+#!/usr/bin/env bash
 cd ../modules/flowable-ui-admin/
-./start.sh
+./start-admin.sh

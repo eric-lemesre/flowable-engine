@@ -1,3 +1,3 @@
-#!/bin/bash
+#!/usr/bin/env bash
 cd ../modules/flowable-ui-task
-./start.sh
+./start-task.sh

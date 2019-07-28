@@ -180,6 +180,9 @@
     <build>
 
         <finalName>flowable-idm</finalName>
+        <filters>
+            <filter>src/main/profiles/db/db-${db.profile.id}-config.properties</filter>
+        </filters>
 
         <resources>
             <resource>
@@ -234,6 +237,9 @@
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
+            <properties>
+                <db.profile.id>h2mem</db.profile.id>
+            </properties>
             <dependencies>
                 <dependency>
                     <groupId>com.h2database</groupId>
@@ -256,6 +262,9 @@
         </profile>
         <profile>
             <id>postgresql</id>
+            <properties>
+                <db.profile.id>postgresql</db.profile.id>
+            </properties>
             <dependencies>
                 <dependency>
                     <groupId>org.postgresql</groupId>
@@ -283,6 +292,9 @@
         </profile>
         <profile>
             <id>mysql</id>
+            <properties>
+                <db.profile.id>mysql</db.profile.id>
+            </properties>
             <dependencies>
                 <dependency>
                     <groupId>mysql</groupId>
@@ -307,6 +319,24 @@
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+        <profile>
+            <id>db2</id>
+            <properties>
+                <db.profile.id>db2</db.profile.id>
+            </properties>
+        </profile>
+        <profile>
+            <id>oracle</id>
+            <properties>
+                <db.profile.id>oracle</db.profile.id>
+            </properties>
+        </profile>
+        <profile>
+            <id>sqlserver</id>
+            <properties>
+                <db.profile.id>sqlserver</db.profile.id>
+            </properties>
         </profile>
         <profile>
             <id>docker-deps</id>

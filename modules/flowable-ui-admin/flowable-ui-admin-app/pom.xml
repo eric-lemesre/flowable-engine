@@ -1,36 +1,39 @@
  <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     <name>Flowable UI Admin</name>
     <artifactId>flowable-ui-admin-app</artifactId>
-	<packaging>war</packaging>
+    <packaging>war</packaging>
 
     <parent>
-      <groupId>org.flowable</groupId>
-      <artifactId>flowable-ui-admin</artifactId>
-      <version>6.4.0-19</version>
+        <groupId>org.flowable</groupId>
+        <artifactId>flowable-ui-admin</artifactId>
+        <version>6.4.0-19</version>
     </parent>
 
     <properties>
-      	<!-- Maven build properties -->
-  		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- Maven build properties -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-  		<!-- Libraries versions -->
-  		<flowable.version>6.4.0-19</flowable.version>
-  		<jetty.version>9.1.3.v20140225</jetty.version>
+        <!-- Libraries versions -->
+        <flowable.version>6.4.0-19</flowable.version>
+        <jetty.version>9.1.3.v20140225</jetty.version>
 
-  		<!-- Web container version -->
-  		<tomcat.version>7.0.53</tomcat.version>
+        <!-- Web container version -->
+        <tomcat.version>7.0.53</tomcat.version>
     </properties>
 
-	<profiles>
+    <profiles>
 
         <profile>
             <id>h2mem</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
+            <properties>
+                <db.profile.id>h2mem</db.profile.id>
+            </properties>            
             <dependencies>
                 <dependency>
                     <groupId>com.h2database</groupId>
@@ -54,6 +57,9 @@
 
         <profile>
             <id>postgresql</id>
+            <properties>
+                <db.profile.id>postgresql</db.profile.id>
+            </properties>            
             <dependencies>
                 <dependency>
                     <groupId>org.postgresql</groupId>
@@ -82,6 +88,9 @@
 
         <profile>
             <id>mysql</id>
+            <properties>
+                <db.profile.id>mysql</db.profile.id>
+            </properties>            
             <dependencies>
                 <dependency>
                     <groupId>mysql</groupId>
@@ -123,36 +132,54 @@
             </build>
         </profile>
 
-		<profile>
-			<id>distro</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-source-plugin</artifactId>
-						<executions>
-							<execution>
-								<goals>
-									<goal>jar</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-javadoc-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>attach-javadocs</id>
-								<goals>
-									<goal>jar</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
+        <profile>
+            <id>db2</id>
+             <properties>
+                <db.profile.id>db2</db.profile.id>
+            </properties>            
+        </profile>
+        <profile>
+            <id>oracle</id>
+             <properties>
+                <db.profile.id>oracle</db.profile.id>
+            </properties>            
+        </profile>
+        <profile>
+            <id>sqlserver</id>
+             <properties>
+                <db.profile.id>sqlserver</db.profile.id>
+            </properties>            
+        </profile>
+        <profile>
+            <id>distro</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
 
         <!-- database qa profile -->
         <profile>
@@ -306,9 +333,9 @@
             </build>
         </profile>
 
-	</profiles>
+    </profiles>
 
-	<dependencies>
+    <dependencies>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -370,12 +397,12 @@
             <artifactId>flowable-ui-admin-logic</artifactId>
         </dependency>
 
-		<!-- Flowable -->
-		<dependency>
+        <!-- Flowable -->
+        <dependency>
             <groupId>org.flowable</groupId>
             <artifactId>flowable-ui-common</artifactId>
         </dependency>
-		<dependency>
+        <dependency>
             <groupId>org.flowable</groupId>
             <artifactId>flowable-bpmn-model</artifactId>
         </dependency>
@@ -385,33 +412,33 @@
         </dependency>
 
         <!-- Http client -->
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpmime</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpmime</artifactId>
+        </dependency>
 
-	    <!-- LOGGING -->
-		<dependency>
+        <!-- LOGGING -->
+        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
         </dependency>
 
-		<!-- JSON -->
-		<dependency>
-			<groupId>com.fasterxml.jackson.datatype</groupId>
-			<artifactId>jackson-datatype-json-org</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.datatype</groupId>
-			<artifactId>jackson-datatype-hppc</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.datatype</groupId>
-			<artifactId>jackson-datatype-joda</artifactId>
-		</dependency>
+        <!-- JSON -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-json-org</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-hppc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-joda</artifactId>
+        </dependency>
 
-		<!-- DATABASE -->
-		<dependency>
+        <!-- DATABASE -->
+        <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
         </dependency>
@@ -457,79 +484,82 @@
             <artifactId>java-uuid-generator</artifactId>
         </dependency>
 
-		<!-- COMMON dependencies -->
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-		</dependency>
-		<dependency>
+        <!-- COMMON dependencies -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
-		<dependency>
-			<groupId>commons-collections</groupId>
-			<artifactId>commons-collections</artifactId>
-			<version>3.2.2</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<scope>provided</scope>
-		</dependency>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>3.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
-		<!-- JODA TIME -->
-		<dependency>
-			<groupId>joda-time</groupId>
-			<artifactId>joda-time</artifactId>
-		</dependency>
+        <!-- JODA TIME -->
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjrt</artifactId>
-			<version>1.7.4</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>1.7.4</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
 
-		<!-- TEST dependencies -->
-		<dependency>
+        <!-- TEST dependencies -->
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-		<dependency>
-			<groupId>com.jayway.jsonpath</groupId>
-			<artifactId>json-path</artifactId>
-			<version>0.9.1</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.hamcrest</groupId>
-			<artifactId>hamcrest-core</artifactId>
-			<version>1.3</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.hamcrest</groupId>
-			<artifactId>hamcrest-library</artifactId>
-			<version>1.3</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<scope>test</scope>
-		</dependency>
+        <dependency>
+            <groupId>com.jayway.jsonpath</groupId>
+            <artifactId>json-path</artifactId>
+            <version>0.9.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-core</artifactId>
+            <version>1.3</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-library</artifactId>
+            <version>1.3</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-	</dependencies>
+    </dependencies>
 
-	<!-- BUILD -->
-	<build>
-		<finalName>flowable-admin</finalName>
+    <!-- BUILD -->
+    <build>
+        <finalName>flowable-admin</finalName>
+        <filters>
+            <filter>src/main/profiles/db/db-${db.profile.id}-config.properties</filter>
+        </filters> 
 
         <resources>
             <resource>
@@ -553,7 +583,7 @@
             </resource>
         </resources>
 
-		<plugins>
+        <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -563,37 +593,38 @@
                     </excludeArtifactIds>
                 </configuration>
             </plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<argLine>-Xmx256m</argLine>
-					<forkCount>1</forkCount>
-					<reuseForks>false</reuseForks>
-					<!-- Force alphabetical order to have a reproducible build -->
-					<runOrder>alphabetical</runOrder>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>2.4</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-eclipse-plugin</artifactId>
-				<version>2.9</version>
-				<configuration>
-					<downloadSources>true</downloadSources>
-					<downloadJavadocs>true</downloadJavadocs>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>sonar-maven-plugin</artifactId>
-				<version>2.2</version>
-			</plugin>
-		</plugins>
-	</build>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M3</version>
+                <configuration>
+                    <argLine>-Xmx256m</argLine>
+                    <forkCount>1</forkCount>
+                    <reuseForks>false</reuseForks>
+                    <!-- Force alphabetical order to have a reproducible build -->
+                    <runOrder>alphabetical</runOrder>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.4</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-eclipse-plugin</artifactId>
+                <version>2.9</version>
+                <configuration>
+                    <downloadSources>true</downloadSources>
+                    <downloadJavadocs>true</downloadJavadocs>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>2.2</version>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

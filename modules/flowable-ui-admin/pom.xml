@@ -58,6 +58,7 @@
         <plugins>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M3</version>
                 <configuration>
                     <argLine>-Xmx256m</argLine>
                     <forkCount>1</forkCount>
